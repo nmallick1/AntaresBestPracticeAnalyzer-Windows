@@ -1,0 +1,1 @@
+# Main executor for Antares Best Practice Analyzer - Windows

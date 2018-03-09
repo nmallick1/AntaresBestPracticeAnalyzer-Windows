@@ -1,0 +1,2 @@
+This detector will perform the following checks
+1. Check to see if there is a slot against a given site. If not, flag the site as it is always recommended to deploy against a slot. Not having a slot for sure means that the deployment is happening against the production slot

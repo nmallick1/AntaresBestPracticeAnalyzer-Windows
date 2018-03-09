@@ -312,6 +312,12 @@ while($continueExecutingSiteDetectors -or $continueExecutingASPDetectors ){
 
         }
     }#end of Site detectors execution
+    else
+    {
+        #If we are here, then it means that all the Site Detectors have already completed however ASP detectors are still pending to be scheduled. Increase the concurrency for ASP detectors to allow for more of them to be scheduled
+        $maxSitesConcurrency = 0
+        $maxASPConcurrency = $maxConcurrency
+    }
 
     if($continueExecutingASPDetectors)
     {
@@ -324,6 +330,12 @@ while($continueExecutingSiteDetectors -or $continueExecutingASPDetectors ){
         WILL PULL ASP METRICS IN THIS PARENT SCRIPT WITHOUT A TIMEOUT AS A JOB AND WILL ALSO WRITE AN SAMPLE ASP DETECTOR IN A SEPERATE PS1 FILE AS PER THE FORMAT
         #>
 
+    }
+    else
+    {
+        #If we are here, then it means that all the ASP Detectors have already completed however Site detectors are still pending to be scheduled. Increase the concurrency for Site detectors to allow for more of them to be scheduled        
+        $maxASPConcurrency = 0
+        $maxSitesConcurrency = $maxConcurrency
     }
 
     #region Impose Detector Timeouts

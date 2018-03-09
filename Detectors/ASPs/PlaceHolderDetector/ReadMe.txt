@@ -1,19 +1,18 @@
 Instructions on creating a Detector.
 
 
-1. Make sure there are no spaces in the Detector script name. Place your detectory scriupt within a folder with the same name as your Detector script. You can then put this folder inside the \Detectors\Sites or Detectors\ASPs directory
-For e.g.. The sample SlotsDetector.ps1 is a Sites Detector and its script is placed inside \Detectors\Sites\SlotsDetector\SlotsDetector.ps1
+1. Make sure there are no spaces in the Detector script name. Place your Detector script within a folder with the same name as your Detector script. You can then put this folder inside the Detectors\ASPs directory
 
 2. No individual Detector should take more than a few minutes to complete. It runs a risk of being terminated if it runs for a long time
 Timeout for a Site detector is 6 minutes and for an ASP detector is 10 minutes
 
-3. As a rule of thumb, if you are downloading any file that you need for your detector to function, download it in the Sites directory respresnted by $resourceToProcess instead of the directory in which your Detectory resides.
+3. As a rule of thumb, if you are downloading any file that you need for your detector to function, download it in the directory respresnted by $resourceToProcess instead of the directory in which your Detector resides.
 You may choose to clean up / leave the downloaded data as is. Just in case any other detectory needs it, it will already have it there.
 Simillarly, if you need a file downloaded / some data, check for its presence. Chances are, some other detector might have already done the work for you
 
 
 4. $resourceToProcess will have input in the following format
-    C:\Projects\AntaresBestPracticeAnalyzer-Windows\Output\da511dea-6e00-4728-93ff-6302ad7fe284\Sites\da511dea-6e00-4728-93ff-6302ad7fe284_nmallickWebAppRG_nmallick1
+    C:\Projects\AntaresBestPracticeAnalyzer-Windows\Output\da511dea-6e00-4728-93ff-6302ad7fe284\ASPs\da511dea-6e00-4728-93ff-6302ad7fe284_nmallickWebAppRG_nmallick-S3-ASP
 
 5. Once done with the detector logic, create a file with the following naming convention and place it in the same folder as $resourceToProcess
     DetectorName.out.
@@ -27,7 +26,7 @@ Simillarly, if you need a file downloaded / some data, check for its presence. C
     "SubscriptionId": "This should be the Subscription ID under which the current site resides",
     "ResourceGroupName": "This should be the resource grop name under which the current site resides",
     "ResourceName": "This should be either the name of the webapp or ASP that the detector is currently processing",
-    "Kind": "Make sure value is one out of SiteDector | ASPDetector",
+    "Kind": "Make sure value is ASPDetector",
     "DetectorName": "SlotsDetector",
     "Author": "Feel free to addd your name and/or email address or simply state Anonymous"
     "Description": "In short, state which best practice does your detector checks against",

@@ -92,7 +92,7 @@ Simillarly, if you need a file downloaded / some data, check for its presence. C
     }
     else
     {
-        #alwayson option cannot be enabled as the site is either in free or shared plan
+        #alwayson option cannot be enabled as the site is either in free or shared plan.
         $adheringToBestPractice = $false
         $failureDetails =  "you should enable alwayson setting to avoid application getting stopped when the idletimeout (20 minutes) is hit. You cannot enable this feature on Free or Shared Hosting plan so migrate to Standard or above to get this feature enabled."
     }

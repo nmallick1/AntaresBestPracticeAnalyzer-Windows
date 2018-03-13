@@ -39,6 +39,16 @@ Function DisplayMessage
         DisplayMessage -Message "Installing Chocolatey" -Level Info
         Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     }
+    else
+    {
+        #Even if the folder is present, there are times when the directory is empty effectively meaning that choco is not installed. We have to initiate an install in this condition too
+        if((Get-ChildItem "$env:ProgramData\Chocolatey" -Recurse | Measure-Object).Count -lt 20)
+        {
+            #There are less than 20 files in the choco directory so we are assuming that either choco is not installed or is not installed properly.
+            DisplayMessage -Message "Installing Chocolatey. Please ensure that you have launched PowerShell as Administrator" -Level Info
+            Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        }
+    }
 
     $armClientInstalled = Test-Path -Path "$env:ProgramData\chocolatey\lib\ARMClient"
 
@@ -47,6 +57,17 @@ Function DisplayMessage
         DisplayMessage -Message "Installing ARMClient" -Level Info
         choco install armclient
     }
+    else
+    {
+        #Even if the folder is present, there are times when the directory is empty effectively meaning that ARMClient is not installed. We have to initiate an install in this condition too
+        if((Get-ChildItem "$env:ProgramData\chocolatey\lib\ARMClient" -Recurse | Measure-Object).Count -lt 5)
+        {
+            #There are less than 5 files in the choco directory so we are assuming that either choco is not installed or is not installed properly.
+            DisplayMessage -Message "Installing ARMClient. Please ensure that you have launched PowerShell as Administrator" -Level Info
+            choco install armclient
+        }
+    }
+
 
     <#
     NOTE: Please inspect all the powershell scripts prior to running any of these scripts to ensure safety.

@@ -73,6 +73,9 @@ Simillarly, if you need a file downloaded / some data, check for its presence. C
     #The complete path of the JSON file that contains settings for this resource is $resourceToProcess + "\" + $settingsFileName
     $settingsFileName = $resourceName + ".json"
 
+    #The complete path of the JSON file that contains config for this resource is $resourceToProcess + "\" + $configFileName
+    $configFileName = $resourceName + ".config.json"
+
     #Initialize
     $adheringToBestPractice = $true
 #endregion Do not change anything in this section

@@ -170,6 +170,13 @@ else
             #endregion
 
 
+            #region Get Site Config for each of the webapps for use by detectors later
+                $siteConfigURL = "/subscriptions/" + $siteObj.Subscription + "/resourcegroups/" + $siteObj.ResourceGroup + "/providers/Microsoft.Web/sites/" + $siteObj.SiteName + "/config?api-version=2016-08-01"
+                $siteConfig = ARMClient.exe GET $siteConfigURL
+                New-Item -ItemType File -Path ($sitesDirectory + "\" + $currSiteOutputDirName + "\" + $siteObj.SiteName + ".config.json") -Force >$null
+                $siteConfig | Out-File -FilePath ($sitesDirectory + "\" + $currSiteOutputDirName + "\" + $siteObj.SiteName + ".config.json") -Append  -Force
+            #endregion Get Site Config for each of the webapps for use by detectors later
+
             #-------------------------------------------
         }
     }

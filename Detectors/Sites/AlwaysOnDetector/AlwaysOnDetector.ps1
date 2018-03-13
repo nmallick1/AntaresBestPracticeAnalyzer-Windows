@@ -66,35 +66,26 @@ Simillarly, if you need a file downloaded / some data, check for its presence. C
     #The complete path of the JSON file that contains settings for this resource is $resourceToProcess + "\" + $settingsFileName
     $settingsFileName = $resourceName + ".json"
 
+    #The complete path of the JSON file that contains config for this resource is $resourceToProcess + "\" + $configFileName
+    $configFileName = $resourceName + ".config.json"
+
     #Initialize
     $adheringToBestPractice = $true
 #endregion Do not change anything in this section
 
 #region Code for your detector goes here
-    $siteProperties = Get-Content -Path ($resourceToProcess + "\" + $settingsFileName) |ConvertFrom-Json
 
-    #This check is to make sure site is not in free or shared as we cant enable alwayson option
-    If($siteProperties.sku -eq "Basic" -or $siteProperties.sku -eq "Standard" -or $siteProperties.sku -eq "Premium" -or $siteProperties.sku -eq "Isolated")
+    $siteConfig = Get-Content -Path ($resourceToProcess + "\" + $configFileName) |ConvertFrom-Json
+
+    if($siteConfig.value[0].properties.alwaysOn)
     {
-       
-        $siteConfigURL = "/subscriptions/" + $subscriptionId + "/resourceGroups/" + $resourceGroup + "/providers/Microsoft.Web/sites/" + $resourceName + "/config?api-version=2016-08-01"
-        $siteConfigForThisSite = ARMClient.exe Get $siteConfigURL | ConvertFrom-Json
-        if($siteConfigForThisSite.value.properties.alwaysOn)
-        {
-            $adheringToBestPractice = $true            
-        }
-        else
-        {
-            #The alwayson option is off
-            $adheringToBestPractice = $false 
-            $failureDetails = "you should enable alwayson setting to avoid application getting stopped when the idletimeout (20 minutes) is hit and this ensures better application performance."
-        }
+        $adheringToBestPractice = $true
     }
     else
     {
-        #alwayson option cannot be enabled as the site is either in free or shared plan.
+        #The alwayson option is off
         $adheringToBestPractice = $false
-        $failureDetails =  "you should enable alwayson setting to avoid application getting stopped when the idletimeout (20 minutes) is hit. You cannot enable this feature on Free or Shared Hosting plan so migrate to Standard or above to get this feature enabled."
+        $failureDetails = "Enable the AlwaysOn setting to avoid application from stoping when the idletimeout (20 minutes) limit is reached. This setting ensures better application performance by avoiding delays introduced due to subsequent application warm ups."
     }
 
 #endregion  Code for your detector goes here
